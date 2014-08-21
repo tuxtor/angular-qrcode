@@ -45,9 +45,6 @@ angular.module('monospaced.qrcode', [])
             modules,
             tile,
             qr,
-            setVersion = function(value) {
-              version = Math.max(1, Math.min(parseInt(value, 10), 10)) || 4;
-            },
             setErrorCorrectionLevel = function(value) {
               errorCorrectionLevel = value in levels ? value : 'M';
             },
@@ -55,6 +52,8 @@ angular.module('monospaced.qrcode', [])
               if (!value) {
                 return;
               }
+
+              version = 1;
 
               data = value.replace(trim, '');
               qr = qrcode(version, errorCorrectionLevel);
@@ -110,20 +109,8 @@ angular.module('monospaced.qrcode', [])
               }
             };
 
-        setVersion(attrs.version);
         setErrorCorrectionLevel(attrs.errorCorrectionLevel);
         setSize(attrs.size);
-
-        attrs.$observe('version', function(value) {
-          if (!value) {
-            return;
-          }
-
-          setVersion(value);
-          setData(data);
-          setSize(size);
-          render();
-        });
 
         attrs.$observe('errorCorrectionLevel', function(value) {
           if (!value) {
